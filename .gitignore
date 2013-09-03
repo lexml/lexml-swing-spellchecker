@@ -5,3 +5,7 @@
 *.war
 *.ear
 /.project
+/target
+/.classpath
+/.settings
+/bin
