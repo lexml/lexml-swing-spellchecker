@@ -10,7 +10,7 @@
 
 	<groupId>br.gov.lexml.swing</groupId>
 	<artifactId>lexml-swing-spellchecker</artifactId>
-	<version>0.0.15-SNAPSHOT</version>
+	<version>0.0.15</version>
 
 	<packaging>jar</packaging>
 
@@ -68,4 +68,8 @@
 		</dependency>
 	</dependencies>
 
+
+  <scm>
+    <tag>lexml-swing-spellchecker-0.0.15</tag>
+  </scm>
 </project>
