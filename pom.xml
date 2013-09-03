@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>br.gov.lexml</groupId>
 		<artifactId>public-maven-parent</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
 	<groupId>br.gov.lexml.swing</groupId>
@@ -15,6 +15,14 @@
 	<packaging>jar</packaging>
 
 	<name>Spellchecker para EditorHtml e outros componentes Swing</name>
+	
+	<scm>
+		<url>https://github.com/lexml/${project.artifactId}</url>
+		<developerConnection>scm:git:https://github.com/lexml/${project.artifactId}.git</developerConnection>
+		<connection>scm:git:https://github.com/lexml/${project.artifactId}.git</connection>
+        <tag>HEAD</tag>
+  	</scm>
+	
 
 	<build>
 		<plugins>
