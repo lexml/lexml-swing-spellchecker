@@ -1,0 +1,15 @@
+-------------------------------
+lexml-swing-editor-spellchecker
+-------------------------------
+
+- Utilizamos o Hunspell (http://hunspell.sourceforge.net/) como spellchecker.
+
+- Para acesso via java utilizamos a interface HunspellJNA (http://dion.swamp.dk/hunspell.html)
+Ver /doc/HunspellJNA
+
+- Distribuimos apenas as bibliotecas para windows e linux, 32 e 64 bits.
+
+- Para executar como Java Application a biblioteca nativa deve estar no path de bibliotecas
+do sistema (Windows: PATH, Linux: LD_LIBRARY_PATH)
+
+
