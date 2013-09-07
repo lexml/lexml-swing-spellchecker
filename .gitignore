@@ -9,3 +9,8 @@
 /.classpath
 /.settings
 /bin
+.idea/
+out/
+*.ipr
+*.iws
+*.iml
