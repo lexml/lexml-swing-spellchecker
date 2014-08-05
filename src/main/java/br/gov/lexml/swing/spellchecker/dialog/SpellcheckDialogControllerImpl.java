@@ -43,6 +43,7 @@ public class SpellcheckDialogControllerImpl implements SpellcheckDialogControlle
 	public void iniciar() {
 
 		idx = 0;
+		mgr.restart();
 		if (proximaPalavra()) {
 			view.centraliza();
 			view.setVisible(true);

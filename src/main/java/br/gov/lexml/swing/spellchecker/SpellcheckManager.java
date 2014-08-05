@@ -1,3 +1,4 @@
+
 package br.gov.lexml.swing.spellchecker;
 
 import java.awt.Cursor;
@@ -39,60 +40,6 @@ import org.apache.commons.logging.LogFactory;
  * Utilização:
  * 
  * <pre>
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
  * 
  * JTextPane textPane = new JTextPane();
  * 
@@ -262,10 +209,10 @@ public class SpellcheckManager {
 		/*
 		 * SwingUtilities.invokeLater(new Runnable() {
 		 * 
-		 * @Override
-		 * public void run() {
+		 * @Override public void run() {
 		 */
 
+//		textPaneAtivo.requestFocus();
 		textPaneAtivo.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		highlight(0, textPaneAtivo.getDocument().getLength());
 		textPaneAtivo.setCursor(Cursor.getDefaultCursor());
@@ -478,7 +425,11 @@ public class SpellcheckManager {
 	public Highlight highlight(int startOffset, int endOffset, HighlightPainter painter) {
 
 		try {
+	
+			textPaneAtivo.setCaretPosition(startOffset);
+			
 			return (Highlight) textPaneAtivo.getHighlighter().addHighlight(startOffset, endOffset, painter);
+			
 		} catch (BadLocationException e) {
 			log.error(e.getMessage(), e);
 			return null;
@@ -489,12 +440,14 @@ public class SpellcheckManager {
 
 		JTextPane pane = (JTextPane) e.getSource();
 
-		if (pane == textPaneAtivo) {
+		this.textPaneAtivo = pane;
+
+	//	if (pane == textPaneAtivo) {
 
 			Document doc = textPaneAtivo.getDocument();
 
 			try {
-
+				log.debug("------------ : " + doc.getText(0, doc.getLength()));
 				int i = Math.min(Math.max(textPaneAtivo.viewToModel(e.getPoint()), 0), doc.getLength() - 1);
 
 				int docLength = doc.getLength();
@@ -524,7 +477,7 @@ public class SpellcheckManager {
 				log.error(e1.getMessage(), e1);
 			}
 
-		}
+		//}
 
 	}
 
@@ -643,6 +596,8 @@ public class SpellcheckManager {
 
 	private List<Highlight> getSpellcheckHilitesOrdered() {
 
+		log.debug(textPaneAtivo.getText());
+		
 		Highlighter hilite = textPaneAtivo.getHighlighter();
 
 		List<Highlight> hilites = new ArrayList<Highlight>();
@@ -760,6 +715,8 @@ public class SpellcheckManager {
 			}
 
 		}
+		
+		//restart();
 
 	}
 
