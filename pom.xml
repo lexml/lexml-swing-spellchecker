@@ -4,7 +4,7 @@
 
 	<groupId>br.gov.lexml.swing</groupId>
 	<artifactId>lexml-swing-spellchecker</artifactId>
-	<version>0.0.16-SNAPSHOT</version>
+	<version>0.0.17-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
 
@@ -51,7 +51,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4.1</version>
+				<version>2.5</version>
 				<configuration>
 					<detail>true</detail>
 					<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
@@ -59,7 +59,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.7</version>
+				<version>2.8.1</version>
 				<configuration>
 					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
 				</configuration>
@@ -67,6 +67,7 @@
 			<plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-source-plugin</artifactId>
+			  <version>2.3</version>
 			  <executions>
 			    <execution>
 			      <id>attach-sources</id>
@@ -79,7 +80,7 @@
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
-				<version>0.8</version>
+				<version>0.9</version>
 				<configuration>
 					<message>Maven artifacts for ${project.artifactId}
 						${project.version}</message>  <!-- git commit message -->
@@ -109,7 +110,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.1</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
