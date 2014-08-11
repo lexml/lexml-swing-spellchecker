@@ -4,7 +4,7 @@
 
 	<groupId>br.gov.lexml.swing</groupId>
 	<artifactId>lexml-swing-spellchecker</artifactId>
-	<version>0.0.17-SNAPSHOT</version>
+	<version>0.0.17</version>
 
 	<packaging>jar</packaging>
 
@@ -21,7 +21,7 @@
 		<url>https://github.com/lexml/${project.artifactId}</url>
 		<developerConnection>scm:git:https://github.com/lexml/${project.artifactId}.git</developerConnection>
 		<connection>scm:git:https://github.com/lexml/${project.artifactId}.git</connection>
-    	<tag>HEAD</tag>
+    	<tag>lexml-swing-spellchecker-0.0.17</tag>
     </scm>
 	
 	<distributionManagement>
