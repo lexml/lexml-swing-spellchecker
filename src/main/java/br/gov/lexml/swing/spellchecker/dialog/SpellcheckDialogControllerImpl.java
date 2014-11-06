@@ -14,36 +14,30 @@ import org.apache.commons.logging.LogFactory;
 import br.gov.lexml.swing.spellchecker.SpellcheckManager;
 import br.gov.lexml.swing.spellchecker.SpellcheckManager.WordInContext;
 
-public class SpellcheckDialogControllerImpl implements SpellcheckDialogController {
-
+public class SpellcheckDialogControllerImpl implements
+		SpellcheckDialogController {
+	
 	private static final Log log = LogFactory.getLog(SpellcheckDialogControllerImpl.class);
 
 	private SpellcheckManager mgr;
-
 	private SpellcheckDialogView view;
 
 	private int idx;
-
 	private Highlight highlight;
-
 	private Highlight selectionHighlight;
-
 	private String word;
-
 	private HighlightPainter highlightPainter;
 
 	public SpellcheckDialogControllerImpl(SpellcheckManager mgr) {
-
 		this.mgr = mgr;
 		view = new SpellcheckDialogView(this);
-		highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+		highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(
+				Color.YELLOW);
 	}
 
 	@Override
 	public void iniciar() {
-
 		idx = 0;
-		mgr.restart();
 		if (proximaPalavra()) {
 			view.centraliza();
 			view.setVisible(true);
@@ -57,51 +51,23 @@ public class SpellcheckDialogControllerImpl implements SpellcheckDialogControlle
 		highlight = mgr.nextHighlight(idx);
 
 		if (highlight == null) {
+			JOptionPane.showMessageDialog(view,
+					"A verificação ortográfica está completa.");
+			fechar();
+			return false;
+		} else {
+			try {
+				addSelectionHighlight();
+				WordInContext wic = mgr.getWordInContext(highlight);
+				word = wic.word;
+				idx = highlight.getEndOffset();
+				view.setWordInContext(wic);
+				view.setSuggestions(mgr.getSuggestions(word));
 
-			idx = 0;
-
-			while (highlight == null) {// && mgr.hasMoreElements()
-
-				highlight = mgr.nextHighlight(idx);
-
-				if (!mgr.hasMoreElements()) {
-
-					break;
-
-				}
-
+			} catch (BadLocationException e) {
+				log.error(e.getMessage(), e);
 			}
-
-			if (highlight == null) {
-
-				JOptionPane.showMessageDialog(view, "A verificação ortográfica está completa.");
-
-				fechar();
-
-				return false;
-
-			}
-
-		} // else {
-
-		try {
-			
-			addSelectionHighlight();
-			
-			WordInContext wic = mgr.getWordInContext(highlight);
-			word = wic.word;
-			
-			idx = highlight.getEndOffset();
-			
-			view.setWordInContext(wic);
-			view.setSuggestions(mgr.getSuggestions(word));
-
-		} catch (BadLocationException e) {
-
-			log.error(e.getMessage(), e);
-
 		}
-		// }
 
 		view.habilitaBotoes();
 
@@ -109,12 +75,11 @@ public class SpellcheckDialogControllerImpl implements SpellcheckDialogControlle
 	}
 
 	private void addSelectionHighlight() {
-
-		selectionHighlight = mgr.highlight(highlight.getStartOffset(), highlight.getEndOffset(), highlightPainter);
+		selectionHighlight = mgr.highlight(highlight.getStartOffset(),
+				highlight.getEndOffset(), highlightPainter);
 	}
 
 	private void removeSelectionHighlight() {
-
 		if (selectionHighlight != null) {
 			mgr.removeHighlight(selectionHighlight);
 			selectionHighlight = null;
@@ -123,42 +88,36 @@ public class SpellcheckDialogControllerImpl implements SpellcheckDialogControlle
 
 	@Override
 	public void ignorar() {
-
 		mgr.ignorar(highlight);
 		proximaPalavra();
 	}
 
 	@Override
 	public void ignorarSempre() {
-
 		mgr.ignorarSempre(word);
 		proximaPalavra();
 	}
 
 	@Override
 	public void adicionar() {
-
 		mgr.adicionar(word);
 		proximaPalavra();
 	}
 
 	@Override
 	public void substituir() {
-
 		mgr.substituir(highlight, view.getSuggestion());
 		proximaPalavra();
 	}
 
 	@Override
 	public void substituirTodas() {
-
 		mgr.substituirTodas(word, view.getSuggestion());
 		proximaPalavra();
 	}
 
 	@Override
 	public void fechar() {
-
 		removeSelectionHighlight();
 		view.setVisible(false);
 	}
