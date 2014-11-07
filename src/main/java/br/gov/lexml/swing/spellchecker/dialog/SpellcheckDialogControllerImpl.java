@@ -1,8 +1,10 @@
+
 package br.gov.lexml.swing.spellchecker.dialog;
 
 import java.awt.Color;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter.Highlight;
@@ -14,32 +16,47 @@ import org.apache.commons.logging.LogFactory;
 import br.gov.lexml.swing.spellchecker.SpellcheckManager;
 import br.gov.lexml.swing.spellchecker.SpellcheckManager.WordInContext;
 
-public class SpellcheckDialogControllerImpl implements
-		SpellcheckDialogController {
-	
+public class SpellcheckDialogControllerImpl implements SpellcheckDialogController {
+
 	private static final Log log = LogFactory.getLog(SpellcheckDialogControllerImpl.class);
 
 	private SpellcheckManager mgr;
+
 	private SpellcheckDialogView view;
 
 	private int idx;
+
 	private Highlight highlight;
+
 	private Highlight selectionHighlight;
+
 	private String word;
+
 	private HighlightPainter highlightPainter;
 
+	private boolean isCentralizadoInicial;
+
 	public SpellcheckDialogControllerImpl(SpellcheckManager mgr) {
+
 		this.mgr = mgr;
 		view = new SpellcheckDialogView(this);
-		highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(
-				Color.YELLOW);
+		highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+
 	}
 
 	@Override
 	public void iniciar() {
+
 		idx = 0;
+
 		if (proximaPalavra()) {
-			view.centraliza();
+
+			if (!isCentralizadoInicial) {
+				view.centraliza();
+
+				isCentralizadoInicial = true;
+			}
+
 			view.setVisible(true);
 		}
 	}
@@ -51,9 +68,41 @@ public class SpellcheckDialogControllerImpl implements
 		highlight = mgr.nextHighlight(idx);
 
 		if (highlight == null) {
-			JOptionPane.showMessageDialog(view,
-					"A verificação ortográfica está completa.");
-			fechar();
+
+			boolean isFimVerificacao = tratarProximoJTextPane(mgr.buscarProximoJTextPaneNaoVerificado());
+
+			if (isFimVerificacao) {
+
+				boolean isFimVerificacaoAposRetorno = true;
+
+				// boolean isIniciarVerificacaoDoComeco =
+				// mgr.isIniciarVerificacaoDoComeco();
+
+				JTextPane proximoNaoVerificado = mgr.buscarPrimeiroJTextPaneNaoVerificado();
+
+				if (proximoNaoVerificado != null) {
+
+					int resposta = JOptionPane.showConfirmDialog(view, "Deseja continuar a verificação ortográfica a partir do início?", "Confirmação",
+							JOptionPane.YES_NO_OPTION);
+
+					if (resposta == JOptionPane.YES_OPTION) {
+
+						isFimVerificacaoAposRetorno = tratarProximoJTextPane(proximoNaoVerificado);
+
+					}
+
+				}
+
+				if (isFimVerificacaoAposRetorno) {
+
+					JOptionPane.showMessageDialog(view, "A verificação ortográfica está completa.");
+
+					fechar();
+
+				}
+
+			}
+
 			return false;
 		} else {
 			try {
@@ -74,12 +123,34 @@ public class SpellcheckDialogControllerImpl implements
 		return true;
 	}
 
+	private boolean tratarProximoJTextPane(JTextPane pane) {
+
+		boolean isFimVerificacao = true;
+
+		if (pane != null) {
+
+			isFimVerificacao = false;
+
+			this.mgr = (SpellcheckManager) pane.getClientProperty(SpellcheckManager.class.getCanonicalName());
+
+			if (this.mgr != null) {
+
+				iniciar();
+
+			}
+
+		}
+
+		return isFimVerificacao;
+	}
+
 	private void addSelectionHighlight() {
-		selectionHighlight = mgr.highlight(highlight.getStartOffset(),
-				highlight.getEndOffset(), highlightPainter);
+
+		selectionHighlight = mgr.highlight(highlight.getStartOffset(), highlight.getEndOffset(), highlightPainter);
 	}
 
 	private void removeSelectionHighlight() {
+
 		if (selectionHighlight != null) {
 			mgr.removeHighlight(selectionHighlight);
 			selectionHighlight = null;
@@ -88,36 +159,42 @@ public class SpellcheckDialogControllerImpl implements
 
 	@Override
 	public void ignorar() {
+
 		mgr.ignorar(highlight);
 		proximaPalavra();
 	}
 
 	@Override
 	public void ignorarSempre() {
+
 		mgr.ignorarSempre(word);
 		proximaPalavra();
 	}
 
 	@Override
 	public void adicionar() {
+
 		mgr.adicionar(word);
 		proximaPalavra();
 	}
 
 	@Override
 	public void substituir() {
+
 		mgr.substituir(highlight, view.getSuggestion());
 		proximaPalavra();
 	}
 
 	@Override
 	public void substituirTodas() {
+
 		mgr.substituirTodas(word, view.getSuggestion());
 		proximaPalavra();
 	}
 
 	@Override
 	public void fechar() {
+
 		removeSelectionHighlight();
 		view.setVisible(false);
 	}
