@@ -261,6 +261,9 @@ public class SpellcheckManager {
 					// log.debug("... " + ws.word);
 
 					if (misspelled(ws.word)) {
+						
+						textPane.putClientProperty(SPELLCHECK_MANAGER_PROPRIEDADE_IS_VERIFICADO, false);
+						
 						hilite.addHighlight(ws.offset, ws.offset + ws.length, myHighlightPainter);
 					}
 
