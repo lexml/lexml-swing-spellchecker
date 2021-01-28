@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>br.gov.lexml</groupId>
 		<artifactId>public-maven-parent</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.4</version>
 	</parent>
 
 	<groupId>br.gov.lexml.swing</groupId>
@@ -24,9 +24,7 @@
   </scm>
 	
 	<properties>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
-		<maven.site.skip>true</maven.site.skip>
-	
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.6</java.version>
@@ -35,36 +33,8 @@
 	
 	</properties>
 	
-	<repositories>
-		<repository>
-			<id>bintray-lexml-lexml</id>
-			<name>bintray</name>
-			<url>https://dl.bintray.com/lexml/lexml</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	
-	<distributionManagement>
-		<repository>
-			<id>bintray-lexml-lexml</id>
-			<name>lexml-lexml</name>
-			<url>https://api.bintray.com/maven/lexml/lexml/${project.artifactId}/;publish=1</url>
-		</repository>
-	</distributionManagement>	
-	
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>3.0.0-M1</version>
-				<configuration>
-					<detail>true</detail>
-					<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-				</configuration>
-			</plugin>
 			<plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-source-plugin</artifactId>
